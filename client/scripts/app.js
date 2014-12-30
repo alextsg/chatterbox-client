@@ -1,4 +1,5 @@
 var app = {};
+app.roomName;
 
 app.init = function () {
   this.fetch();
@@ -10,26 +11,27 @@ app.userName = function () {
 
 app.send = function () {
   var message = {
-    'username': app.userName(),
-    'text': $('#textbox').val(),
-    'roomname': '4chan'
+    username: app.userName(),
+    text: $('#usermessage').val(),
+    roomname: $('#roomname').val()
   };
 
   app.addMessage(message);
-  $('#textbox').val('');
+  $('#usermessage').val('');
 };
 
 app.fetch = function () {
   $.ajax({
-    url: 'https://api.parse.com/1/classes/chatterbox?order=-createdAt',
+    url: 'https://api.parse.com/1/classes/chatterbox',
+    type: 'GET',
+    data: { order: '-createdAt' },
     success: function (data) {
       $('.message').remove();
       var messages = data.results;
       for (var i = 0; i < messages.length; i++) {
-        var complied = _.template("<div class=message><%- username %>: <%- text %></div>");
-        $('#messages').append(complied({
-          username: messages[i].username, text: messages[i].text
-        }));
+        if (!app.roomName || message[i].roomname === app.roomName) {
+          app.message(messages[i]);
+        }
       }
     },
     error: function (data) {
@@ -37,6 +39,26 @@ app.fetch = function () {
     }
   });
 };
+
+app.message = function (message) {
+  var $div = $('<div>').addClass('message');
+  var usr = $('<span>').addClass('user').text(message.username + ': ');
+  var msg = $('<span>').addClass('msg').text(message.text);
+  var rm = $('<span>').addClass('room').text('(' + message.roomname + ') ');
+
+  $div.append(rm).append(usr).append(msg);
+  $('#messages').append($div);
+
+
+  // $('#messages').append($('.message').text(
+  //   '<div class=message data-username=' +
+  //     message.username +
+  //     ' data-roomname=' + message.roomname +
+  //     '><strong>(<a href=' +
+  //     message.roomname +
+  //     '>' + message.roomname + '</a>)</strong>' + message.username + ': ' + message.text +
+  //   '</div>').html());
+}
 
 app.clearMessages = function () {
 
@@ -55,11 +77,10 @@ app.addMessage = function (message) {
     error: function (data) {
       console.error('chatterbox: Failed to add message');
     }
-  })
+  });
 };
 
 app.addRoom = function () {
-
 };
 
 app.addFriend = function () {
@@ -67,11 +88,11 @@ app.addFriend = function () {
 };
 
 app.init();
-setInterval(app.fetch, 10000);
+// setInterval(app.fetch, 10000);
 
 $(document).ready(function(){
   $('#submit').on('click', app.send);
-  $('#textbox').on('keydown', function (e) {
+  $('#usermessage').on('keydown', function (e) {
     if (e.keyCode === 13) app.send();
-  })
+  });
 });

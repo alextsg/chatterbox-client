@@ -85,8 +85,23 @@ form input[type=text] {
 
 .message {
     word-wrap: break-word;
+    margin: 5px 0px 5px;
 }
 
 #messages {
     margin-top: 20px;
+}
+
+.room {
+    color:blue;
+}
+
+.room:hover {
+    color:red;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.user {
+    font-weight:bold;
 }
