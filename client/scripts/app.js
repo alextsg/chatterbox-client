@@ -42,22 +42,12 @@ app.fetch = function () {
 
 app.message = function (message) {
   var $div = $('<div>').addClass('message');
-  var usr = $('<span>').addClass('user').text(message.username + ': ');
-  var msg = $('<span>').addClass('msg').text(message.text);
-  var rm = $('<span>').addClass('room').text('(' + message.roomname + ') ');
+  var $usr = $('<span>').addClass('user').text(message.username + ': ');
+  var $msg = $('<span>').addClass('msg').text(message.text);
+  var $rm  = $('<span>').addClass('room').text('(' + message.roomname + ') ');
 
-  $div.append(rm).append(usr).append(msg);
+  $div.append($rm, $usr, $msg);
   $('#messages').append($div);
-
-
-  // $('#messages').append($('.message').text(
-  //   '<div class=message data-username=' +
-  //     message.username +
-  //     ' data-roomname=' + message.roomname +
-  //     '><strong>(<a href=' +
-  //     message.roomname +
-  //     '>' + message.roomname + '</a>)</strong>' + message.username + ': ' + message.text +
-  //   '</div>').html());
 }
 
 app.clearMessages = function () {
@@ -81,6 +71,7 @@ app.addMessage = function (message) {
 };
 
 app.addRoom = function () {
+
 };
 
 app.addFriend = function () {
@@ -88,7 +79,7 @@ app.addFriend = function () {
 };
 
 app.init();
-// setInterval(app.fetch, 10000);
+setInterval(app.fetch, 3000);
 
 $(document).ready(function(){
   $('#submit').on('click', app.send);
