@@ -105,3 +105,31 @@ form input[type=text] {
 .user {
     font-weight:bold;
 }
+
+.user:hover {
+    color:green;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.friend {
+    color: red;
+    font-weight: bold;
+}
+
+#usermessage {
+    width: 70%;
+    margin-bottom: 10px;
+}
+
+#usermessage:active {
+    background-color: orange;
+}
+
+#roomname {
+    width: 50%;
+}
+
+#roomname:active {
+    background-color: green;
+}
