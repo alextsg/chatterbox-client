@@ -95,4 +95,7 @@ $(document).ready(function(){
   $('#usermessage').on('keydown', function (e) {
     if (e.keyCode === 13) app.send();
   });
+  $('body').on('click', ".room", function(){
+    console.log($('this'));
+  });
 });
