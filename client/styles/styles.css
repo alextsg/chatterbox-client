@@ -82,3 +82,11 @@ form input[type=text] {
 .spinner img {
     padding: 10px;
 }
+
+.message {
+    word-wrap: break-word;
+}
+
+#messages {
+    margin-top: 20px;
+}
