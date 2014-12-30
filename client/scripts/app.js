@@ -29,7 +29,7 @@ app.fetch = function () {
       $('.message').remove();
       var messages = data.results;
       for (var i = 0; i < messages.length; i++) {
-        if (!app.roomName || message[i].roomname === app.roomName) {
+        if (!app.roomName || messages[i].roomname === app.roomName) {
           app.message(messages[i]);
         }
       }
@@ -49,16 +49,7 @@ app.message = function (message) {
   $div.append(rm).append(usr).append(msg);
   $('#messages').append($div);
 
-
-  // $('#messages').append($('.message').text(
-  //   '<div class=message data-username=' +
-  //     message.username +
-  //     ' data-roomname=' + message.roomname +
-  //     '><strong>(<a href=' +
-  //     message.roomname +
-  //     '>' + message.roomname + '</a>)</strong>' + message.username + ': ' + message.text +
-  //   '</div>').html());
-}
+};
 
 app.clearMessages = function () {
 
@@ -88,14 +79,23 @@ app.addFriend = function () {
 };
 
 app.init();
-// setInterval(app.fetch, 10000);
+setInterval(app.fetch, 3000);
 
 $(document).ready(function(){
   $('#submit').on('click', app.send);
   $('#usermessage').on('keydown', function (e) {
     if (e.keyCode === 13) app.send();
   });
+  
   $('body').on('click', ".room", function(){
-    console.log($('this'));
+    var temp = ($(this).text());
+    app.roomName = temp.slice(1,temp.length-2);
+    console.log(app.roomName);
+    app.fetch();
   });
+  $('#room-clear').on('click', function(){
+    app.roomName = '';
+    app.fetch();
+  });
+
 });
